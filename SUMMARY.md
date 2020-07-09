@@ -18,4 +18,5 @@
   * [Inline Formsets](django-tutorial/inline-forsets/README.md)
     * [Additional Explaining](django-tutorial/inline-forsets/additional-explaining.md)
   * [Filter Form Table Search](django-tutorial/filter-form-table-search.md)
+  * [User Registration and Login Authentication](django-tutorial/user-registration-and-login-authentication.md)
 
