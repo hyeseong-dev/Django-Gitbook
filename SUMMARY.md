@@ -15,5 +15,6 @@
     * [Additional - Dynamic URL's](django-tutorial/dynamic-url-routing/dynamic-urls.md)
   * [CRUD with Model](django-tutorial/crud-with-model/README.md)
     * [Redirect V.S. Render](django-tutorial/crud-with-model/redirect-v.s.-render.md)
-  * [Inline Formsets](django-tutorial/inline-forsets.md)
+  * [Inline Formsets](django-tutorial/inline-forsets/README.md)
+    * [Additional Explaining](django-tutorial/inline-forsets/additional-explaining.md)
 

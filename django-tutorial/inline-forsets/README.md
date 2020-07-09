@@ -1,6 +1,6 @@
 # Inline Formsets
 
-![](../.gitbook/assets/image%20%2876%29.png)
+![](../../.gitbook/assets/image%20%2876%29.png)
 
   
 create\_order페이지를 위와 같이 만들어 볼거에요.   
@@ -12,7 +12,7 @@ create\_order페이지를 위와 같이 만들어 볼거에요.
   
 
 
-![](../.gitbook/assets/image%20%2882%29.png)
+![](../../.gitbook/assets/image%20%2882%29.png)
 
 
 
@@ -97,11 +97,11 @@ def createOrder(request, pk):
 
 dashboar html페이지로 가서 Delete Order -&gt; Place Order로 바꾸고 class값 역시 info로 바꿔주세요.
 
-![](../.gitbook/assets/image%20%2877%29.png)
+![](../../.gitbook/assets/image%20%2877%29.png)
 
 그리고 보게되면 href 속성값이 비어있는데 장고 템플릿 문법으로 입력할게요.  {% url 'create\_order' customer.id %} 이거 입력하고 다시 클릭해보면 create\_order페이지로 연결되는 모습을 확인 할 수 있어요. 
 
-![](../.gitbook/assets/image%20%2880%29.png)
+![](../../.gitbook/assets/image%20%2880%29.png)
 
 그런데 사실 John Doe라는 사용자 이름으로 주문을 하려는데 이름이 자동으로 선택되어야 겠조? 고렇게 되도록 해볼게요. 
 
@@ -122,11 +122,11 @@ def createOrder(request, pk):
 {% endtab %}
 {% endtabs %}
 
-![](../.gitbook/assets/image%20%2884%29.png)
+![](../../.gitbook/assets/image%20%2884%29.png)
 
-![](../.gitbook/assets/image%20%2881%29.png)
+![](../../.gitbook/assets/image%20%2881%29.png)
 
-![](../.gitbook/assets/image%20%2879%29.png)
+![](../../.gitbook/assets/image%20%2879%29.png)
 
 John Doe라는 이름이 자동으로 선택되어 있는게 보이네요. 
 
@@ -187,7 +187,7 @@ def createOrder(request, pk):
 {% endtab %}
 {% endtabs %}
 
-![](../.gitbook/assets/image%20%2883%29.png)
+![](../../.gitbook/assets/image%20%2883%29.png)
 
 개떡같은 모습이지만 일단 등록 했던 상품의 data가 그대로 선택된 채로 나왔으며, 추가 입력도 가능한 form의 형태로 나왔어요.
 
@@ -211,7 +211,7 @@ def createOrder(request, pk):
 {% endtab %}
 {% endtabs %}
 
-![](../.gitbook/assets/image%20%2878%29.png)
+![](../../.gitbook/assets/image%20%2878%29.png)
 
 오와 열을 맞추고 그나마 간격이격까지 잘 된 모습이에요.   
 추가로 view의 createOrder메서드를 수정해볼게요. 
