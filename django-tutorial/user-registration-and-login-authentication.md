@@ -2,7 +2,7 @@
 
 회원가입 기능과 로그인 기능 구현을 아래와같이 해볼게요.
 
-![](../.gitbook/assets/image%20%28101%29.png)
+![](../.gitbook/assets/image%20%28107%29.png)
 
 
 
@@ -83,7 +83,7 @@ urlpatterns = [
 
 여기까지 다 작성 했다면 한번 실행해 볼게요. 
 
-![](../.gitbook/assets/image%20%2899%29.png)
+![](../.gitbook/assets/image%20%28104%29.png)
 
 이렇게 나오는 군요.  이메일도 넣어야하고 스타일링도 해줘야겠어요.
 
@@ -114,7 +114,7 @@ form 뒤에 as\_p를 붙였는데 출력을 paragraph로 만들었어요. 한마
   
 그리고 데이터를 안전하게 보내주기 위해서 csrf\_token도 작성해줄게요.
 
-![form.as\_p](../.gitbook/assets/image%20%2894%29.png)
+![form.as\_p](../.gitbook/assets/image%20%2899%29.png)
 
 ### View - 2
 
@@ -149,7 +149,7 @@ def loginPage(request):
 11번째의 from.save\(\)통해서 db에 입력한 값들을 저장하게되요.  
 확인해봐야조?
 
-![](../.gitbook/assets/image%20%28100%29.png)
+![](../.gitbook/assets/image%20%28105%29.png)
 
 좌측에 값을 입력하고 submit 버튼을 눌러서 값이 db에 저장되는지 관리자 페이지에서 확인해보면 정상적으로 확인할수 있어요.
 
@@ -216,7 +216,7 @@ def loginPage(request):
 {% endtab %}
 {% endtabs %}
 
-![](../.gitbook/assets/image%20%28103%29.png)
+![](../.gitbook/assets/image%20%28109%29.png)
 
 그리고 작성한 소스코드를 바탕으로 서버를 돌려서 실행해볼게요. 정상적으로 폼에 값을 입력하면 관리자 웹페이지에서 계정이 생성된걸 확인 할 수 있어요.  
   
@@ -243,7 +243,7 @@ for문을 사용하고 loop하는동안 받을 객체는 field로해서 화면�
 
 깔끔하게 문자들은 다~ 날라간게 보이네요.
 
-![](../.gitbook/assets/image%20%2890%29.png)
+![](../.gitbook/assets/image%20%2892%29.png)
 {% endtab %}
 
 {% tab title="register.html - 2" %}
@@ -270,7 +270,7 @@ for문을 사용하고 loop하는동안 받을 객체는 field로해서 화면�
 
 #### label을 달아 볼게요.
 
-![](../.gitbook/assets/image%20%2896%29.png)
+![](../.gitbook/assets/image%20%28101%29.png)
 {% endtab %}
 {% endtabs %}
 
@@ -591,7 +591,7 @@ jsfiddler
 
 ```
 
-![](../.gitbook/assets/image%20%2898%29.png)
+![](../.gitbook/assets/image%20%28103%29.png)
 {% endtab %}
 {% endtabs %}
 
@@ -792,7 +792,7 @@ def registerPage(request):
 </html>
 ```
 
-![](../.gitbook/assets/image%20%2895%29.png)
+![](../.gitbook/assets/image%20%28100%29.png)
 
 나오긴 했는데 뭔가 허접하조? Flash Message가 출력되도록 할게요.  
 가이드라인은 아래와 같이 할 거에요. 
@@ -857,7 +857,7 @@ def registerPage(request):
 {% endtab %}
 {% endtabs %}
 
-![](../.gitbook/assets/image%20%2888%29.png)
+![](../.gitbook/assets/image%20%2889%29.png)
 
 계정이 2개가 생성되었다는 이유는 기존 dennis3 쿠키가 남아있어서 저렇게 뜨는거에요. 일반적으로 한번 생성하면 한번뜨게되요.
 
@@ -975,7 +975,7 @@ def loginPage(request):
 		return render(request, 'accounts/login.html', context)
 ```
 
-![](../.gitbook/assets/image%20%28107%29.png)
+![](../.gitbook/assets/image%20%28114%29.png)
 
 ### 페이지 접근 권한 설정, 로그아웃, 로그인 한 경우 Home페이지에 사용자 이름 띄우기 
 
@@ -1036,11 +1036,15 @@ urlpatterns = [
   
 db안 테이블중에 이미 django가 만들어준 auth\_user라는 테이블이 있어요. 거기서 request.user를 호출하면 default로 username 컬럼이 잡혀서 return되요.
 
-![](../.gitbook/assets/image%20%28104%29.png)
+![](../.gitbook/assets/image%20%28110%29.png)
 {% endtab %}
 {% endtabs %}
 
 ### View - 9 
+
+### 로그인 사용자 -&gt; loginpage, register 페이지\(X\)
+
+로그인한 유저가 로그인, 회원가입 페이지 화면으로 가지  않게 구성해볼게요.
 
 2~3번째 줄의 경우는 로그인 유무를 확인해주는 조건문과 is\_authenticated\(\)에요.   
 만약 로그인 되어있다면 redirect로 home으로 이동되게 하였어요.  
@@ -1088,5 +1092,53 @@ def loginPage(request):
 
 ```
 
+## 페이지 권한 설정 
 
+로그인 하지 않은채로 홈페이지로 가게되면 AnonymouseUser라고 username이 잡혀있는게 보이네요. 
+
+![](../.gitbook/assets/image%20%2893%29.png)
+
+### View - 10
+
+4번째 줄에 decorators 모듈의 login\_required 함수를 import해서 사용해볼거에요.  
+그리고 home 메서드 바로 머리 위에 @login\_required\(login\_url='login'\)을 사용하면 바로 로그인 페이지로 이동하게 만들어요.  
+  
+결국 적용하고 싶은 어떤 view에도 이렇게 적용할 수  있어요.  
+6개의 view에 적용하도록 할게요. 
+
+```text
+...
+...
+...
+from django.contrib.auth.decorators import login_required
+
+...
+...
+
+@login_required(login_url='login')
+def home(request):
+...
+
+@login_required(login_url='login')
+def products(request):
+...
+
+@login_required(login_url='login')
+def customer(request, pk_test):
+...
+
+@login_required(login_url='login')
+def createOrder(request, pk):
+...
+
+@login_required(login_url='login')
+def updateOrder(request, pk):
+...
+
+@login_required(login_url='login')
+def deleteOrder(request, pk):
+...
+```
+
+### 
 
