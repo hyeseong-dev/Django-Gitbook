@@ -170,18 +170,18 @@ def home(request):
 
 이미 장고가 이런 부분을 고려해서 Group 모델과 테이블을 만들어 줬어요. 사용하기만 하면 되는데요. Group을 클릭해주고 admin, customer 두 개를 만들어 주고 저장해주세요.
 
-![](../../.gitbook/assets/image%20%28116%29.png)
+![](../../.gitbook/assets/image%20%28117%29.png)
 
-![](../../.gitbook/assets/image%20%28120%29.png)
+![](../../.gitbook/assets/image%20%28121%29.png)
 
-![](../../.gitbook/assets/image%20%28118%29.png)
+![](../../.gitbook/assets/image%20%28119%29.png)
 
 
 
 그 다음 유저를 우리가 만든 GROUP에 넣어볼게요.  
 본인이 웹브라우저에서 만든 유저중 아무거나 선택해주고 스크롤을 조금 내려보면 아래 화면이 있어요. 그룹 하나 선택해서 오른쪽으로 넘기고 저장해주세요.
 
-![](../../.gitbook/assets/image%20%28117%29.png)
+![](../../.gitbook/assets/image%20%28118%29.png)
 
 다른 유저 하나를 또 선택해서 이번에는 customer를 선택해서 저장해주세요.   
   
@@ -259,6 +259,8 @@ def home(request):
 {% endtab %}
 {% endtabs %}
 
+### decorators - 3
+
 {% tabs %}
 {% tab title="decorators.py" %}
 ```text
@@ -289,11 +291,204 @@ def allowed_users(allowed_roles=[]):
 {% endtab %}
 {% endtabs %}
 
-![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xC720;&#xC800;&#xD654;&#xBA74;&#xC758; &#xD648;&#xD654;&#xBA74;](../../.gitbook/assets/image%20%28119%29.png)
+![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xC720;&#xC800;&#xD654;&#xBA74;&#xC758; &#xD648;&#xD654;&#xBA74;](../../.gitbook/assets/image%20%28120%29.png)
 
-![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD55C; &#xC720;&#xC800;](../../.gitbook/assets/image%20%28121%29.png)
+![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD55C; &#xC720;&#xC800;](../../.gitbook/assets/image%20%28123%29.png)
 
   
 그럼 **@allowed\_users\(allowed\_roles=\['admin'\]\)  
 다른 필요 로직에도 동일하게 적용할게요. 즉 관리자 권한이 있는 계정만 접근한 페이지를 설정한다는 말이에요.**
+
+### **View - 4**
+
+**@login\_required\(login\_url='login'\) 바로 아래에 @allowed\_users\(allowed\_roles=\['admin'\] \) 로직을 작성할게요.**
+
+**작**
+
+{% tabs %}
+{% tab title="views.py" %}
+```text
+...
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'] )
+def products(request):
+    
+...
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'] )
+def customer(request):
+...
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'] )
+def createOrder(request):
+...
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'] )
+def updateOrder(request):
+...
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'] )
+def deleteOrder(request):
+
+...
+```
+{% endtab %}
+{% endtabs %}
+
+
+
+한 가지 문제가 있는데요. 그럼 관리자 권한이 없는 유저가 로그인 할 때마다  home화면으로 빠져서 보고싶지 않은 화면을 봐야하는 문제에 직면해있어요.   
+
+
+![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xC720;&#xC800;&#xD654;&#xBA74;&#xC758; &#xD648;&#xD654;&#xBA74;](../../.gitbook/assets/image%20%28120%29.png)
+
+그럼 로그인하고 home화면으로 접근 가능한건 오직 admin만 되서 정상적으로 data가 모두 나오게 해야겠조?
+
+
+
+### decorator -4 
+
+19번째줄부터 admin\_only 메서드를 정의해줬어요.  
+말그대로 해당 페이지는 오직 관리자만 접근하도록 한다는 의미인데요.  
+  
+다른 로직들은 3번째줄에 구성된 allowed\_users 함수와 도찐개찐한데 25-26번째줄을 보면 redirect로 'user-page'로가게 설정해뒀어요. 즉 customer group에 속한 user는 user-page로 자동으로 가게 설정해서 아까처럼 쓰잘데기 없는 접근제한이 있다는 페이지를 볼 필요가 없조.
+
+
+
+```text
+...
+...
+def allowed_users(allowed_roles=[]):
+  def decorator(view_func):
+    def wrapper_func(request, *args, **kwargs):
+    
+        group = None
+        if request.user.groups.exists():
+          group = request.user.groups.all()[0].name
+        
+        if group in allowed_roles:
+          return view_func(request, *args, **kwargs)
+        else:
+          return HttpResponse('You are not authorized to view this page') 
+    return wrapper_func
+  return decorator
+  
+
+def admin_only(view_func):
+    def wrapper_function(request, *args, **kwargs):
+        group = None
+        if request.user.groups.exists():
+            group = request.user.groups.all()[0].name
+            
+        if group == 'customer':
+            return redirect('user-page')
+            
+        if group == 'admin':
+            return view_func(request, *args, **kwargs)
+            
+    return wrapper_function
+```
+
+
+
+### View - 5
+
+데코레이터에 로직 썻으면 그 이름표를 view에 달아줘야겠조?  
+일단 admin\_only 메서드 import부터 할게요.  
+  
+데코레이터 한줄만 바꿧습니다. 그리고 서버 돌려서 customer Group에 등록된 유저로 로그인하면 자동으로 ~~~~/user/ 웹 url로 점프하는걸 볼수 있어요.  
+
+
+{% tabs %}
+{% tab title="전" %}
+```text
+from .decorators imort unauthenticated_user, allowed_users, admin_only
+
+...
+...
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def home(request):
+
+...
+...
+```
+{% endtab %}
+
+{% tab title="후" %}
+```
+from .decorators imort unauthenticated_user, allowed_users, admin_only
+
+...
+...
+
+
+
+
+@login_required(login_url='login')
+@admin_only
+def home(request):
+```
+{% endtab %}
+{% endtabs %}
+
+![](../../.gitbook/assets/image%20%28125%29.png)
+
+그런데 회원가입을 하고나서 해당 유저가 customer그룹인지 admin 그룹인지 그 값을 설정하는 것을 관리자 웹페이지에서 했던거 기억나나요?   
+그 짓 하지 않고. 바로 가입하자마자 일반 고객은 customer 그룹에 자동으로 속하도록 로직을 짜볼게요.
+
+### View - 5
+
+django가 만든 Group 클래스를 import할게요.   
+회원 가입할때 자동으로 해당 유저를 customer 그룹에 등록하려면 registerPage 메서드에서 진행해야겠조?
+
+12번째줄에 user 변수로 회원가입 입력란의 저장받은 값들을 db에 저장하는 로직을 표현하고 13번째줄에 username을 form에서 땡겨와서 그 이름을 변수에 저장해요.   
+  
+15번째 줄에서는 import했던 Group 클래스의 쿼리를 활용해서 cusomer이름을 가져와 group이라는 변수에 담고 16번째줄에서 user 그룹 속성에 group에 추가시켜주게 되요. 17번째 소스코드를 통해서 Customer 클래스의 쿼리문에 create를 통해서 유저 생성이 이루어지게 되요.
+
+```text
+...
+from django.contrib.auth.models import Group
+...
+
+unauthenticated_user
+def registerPage(request):
+
+	form = CreateUserForm()
+	if request.method == 'POST':
+		form = CreateUserForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			username = form.cleaned_data.get('username')
+
+			group = Group.objects.get(name='customer')
+			user.groups.add(group)
+			Customer.objects.create(
+				user=user,
+			)
+
+			messages.success(request, 'Account was created for ' + username)
+			return redirect('login')
+
+	context = {'form':form}
+	return render(request, 'accounts/register.html', context)
+...
+...
+...
+```
+
+![](../../.gitbook/assets/image%20%28116%29.png)
+
+회원가입후 로그인해 바로 정상적으로 작동되는지 확인해볼게요.
+
+![](../../.gitbook/assets/image%20%28122%29.png)
+
+보는 바와 같이 회원가입시 바로 자동으로 customer group에 해당되어 home화면에서 -&gt; /user/ 화면으로 자동 redirect되는걸 확인 할 수 있어요
 
