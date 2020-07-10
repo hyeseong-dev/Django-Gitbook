@@ -172,16 +172,16 @@ def home(request):
 
 ![](../../.gitbook/assets/image%20%28117%29.png)
 
-![](../../.gitbook/assets/image%20%28121%29.png)
+![](../../.gitbook/assets/image%20%28122%29.png)
 
-![](../../.gitbook/assets/image%20%28119%29.png)
+![](../../.gitbook/assets/image%20%28120%29.png)
 
 
 
 그 다음 유저를 우리가 만든 GROUP에 넣어볼게요.  
 본인이 웹브라우저에서 만든 유저중 아무거나 선택해주고 스크롤을 조금 내려보면 아래 화면이 있어요. 그룹 하나 선택해서 오른쪽으로 넘기고 저장해주세요.
 
-![](../../.gitbook/assets/image%20%28118%29.png)
+![](../../.gitbook/assets/image%20%28119%29.png)
 
 다른 유저 하나를 또 선택해서 이번에는 customer를 선택해서 저장해주세요.   
   
@@ -291,9 +291,9 @@ def allowed_users(allowed_roles=[]):
 {% endtab %}
 {% endtabs %}
 
-![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xC720;&#xC800;&#xD654;&#xBA74;&#xC758; &#xD648;&#xD654;&#xBA74;](../../.gitbook/assets/image%20%28120%29.png)
+![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xC720;&#xC800;&#xD654;&#xBA74;&#xC758; &#xD648;&#xD654;&#xBA74;](../../.gitbook/assets/image%20%28121%29.png)
 
-![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD55C; &#xC720;&#xC800;](../../.gitbook/assets/image%20%28123%29.png)
+![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD55C; &#xC720;&#xC800;](../../.gitbook/assets/image%20%28125%29.png)
 
   
 그럼 **@allowed\_users\(allowed\_roles=\['admin'\]\)  
@@ -345,7 +345,7 @@ def deleteOrder(request):
 한 가지 문제가 있는데요. 그럼 관리자 권한이 없는 유저가 로그인 할 때마다  home화면으로 빠져서 보고싶지 않은 화면을 봐야하는 문제에 직면해있어요.   
 
 
-![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xC720;&#xC800;&#xD654;&#xBA74;&#xC758; &#xD648;&#xD654;&#xBA74;](../../.gitbook/assets/image%20%28120%29.png)
+![&#xB85C;&#xADF8;&#xC778;&#xC2DC; admin&#xC5D0; &#xC18D;&#xD558;&#xC9C0; &#xC54A;&#xC740; &#xC720;&#xC800;&#xD654;&#xBA74;&#xC758; &#xD648;&#xD654;&#xBA74;](../../.gitbook/assets/image%20%28121%29.png)
 
 그럼 로그인하고 home화면으로 접근 가능한건 오직 admin만 되서 정상적으로 data가 모두 나오게 해야겠조?
 
@@ -439,7 +439,7 @@ def home(request):
 {% endtab %}
 {% endtabs %}
 
-![](../../.gitbook/assets/image%20%28125%29.png)
+![](../../.gitbook/assets/image%20%28127%29.png)
 
 그런데 회원가입을 하고나서 해당 유저가 customer그룹인지 admin 그룹인지 그 값을 설정하는 것을 관리자 웹페이지에서 했던거 기억나나요?   
 그 짓 하지 않고. 바로 가입하자마자 일반 고객은 customer 그룹에 자동으로 속하도록 로직을 짜볼게요.
@@ -488,7 +488,54 @@ def registerPage(request):
 
 회원가입후 로그인해 바로 정상적으로 작동되는지 확인해볼게요.
 
-![](../../.gitbook/assets/image%20%28122%29.png)
+![](../../.gitbook/assets/image%20%28123%29.png)
 
 보는 바와 같이 회원가입시 바로 자동으로 customer group에 해당되어 home화면에서 -&gt; /user/ 화면으로 자동 redirect되는걸 확인 할 수 있어요
+
+
+
+### Template 
+
+18번째의 조건문은 user가  is\_staff이라는 속성에 해당되면 dashboard와 product 버튼을 보여주지만 그렇지 않으면 보여주지 않아요.
+
+{% tabs %}
+{% tab title="navbar.html" %}
+```text
+{% load static %}
+
+<style>
+  #hello-msg{
+    font-size: 18px;
+    color: #fff;
+    margin-right:20px;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+ <img src="{% static 'images/logo.png' %}">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      {% if request.user.is_staff %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'products' %}">Products</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  <span id='hello-msg'>Hello, {{ request.user.username }} </span>
+  <span><a class='hello-msg' href="{% url 'logout' %}">Logout</a> </span>
+</nav>
+```
+{% endtab %}
+{% endtabs %}
+
+![customer &#xADF8;&#xB8F9;&#xC758; &#xC720;&#xC800; ](../../.gitbook/assets/image%20%28124%29.png)
+
+![](../../.gitbook/assets/image%20%28118%29.png)
 
