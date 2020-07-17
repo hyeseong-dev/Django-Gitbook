@@ -22,4 +22,5 @@
   * [User Role Based Permission & Authentication](django-tutorial/user-role-based-permission-and-authentication/README.md)
     * [Decorator](django-tutorial/user-role-based-permission-and-authentication/decorator.md)
 * [OneToOneField](onetoonefield.md)
+* [Django Paypal](django-paypal.md)
 
