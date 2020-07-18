@@ -5,15 +5,15 @@
 **Django를 이용하여 결제 기능을 구현해 볼게요.  
 2가지 책을 판매하고 결제 해볼게요 제가 가장 좋아하는 연글술사와 올리브나무책을 실습으로 진행해볼게요.**
 
-![](.gitbook/assets/image%20%28129%29.png)
+![](../.gitbook/assets/image%20%28129%29.png)
 
 그리고 Buy Now 버튼을 클릭하면 아래와 같이 화면 이동을하게되요.  
 그리고 Palyparl을 통해 결제 할수 있는 버튼으로 넘어가게 되요.  
 Debit, Credit Card로도 결제 가능하도록 기능을 구현해볼게요.
 
-![](.gitbook/assets/image%20%28128%29.png)
+![](../.gitbook/assets/image%20%28128%29.png)
 
-![](.gitbook/assets/image%20%28130%29.png)
+![](../.gitbook/assets/image%20%28130%29.png)
 
 ## 본론 
 
@@ -27,7 +27,7 @@ Debit, Credit Card로도 결제 가능하도록 기능을 구현해볼게요.
 클릭하면 소스코드가 우측에 있어요.   
 즉, 끌어다 우리가 적용하고 싶은 template에 붙여너기만 하면 사용 할 수 있다는걸  어느정도 눈치 챘을거에요.
 
-![](.gitbook/assets/image%20%28131%29.png)
+![](../.gitbook/assets/image%20%28131%29.png)
 
  아래 소스코드를 좀더 풀어 볼게요.   
   
@@ -92,7 +92,7 @@ sb부분에 client id를 입력 가능하게 변경 해줄거에요.
 {% endtab %}
 {% endtabs %}
 
-![](.gitbook/assets/image%20%28132%29.png)
+![](../.gitbook/assets/image%20%28132%29.png)
 
 앞서 말한 empty div가 차지되는 부분이 바로 위의 paypal 버튼들이라는거에요.   
 결국 위 부분이 우리가 커스터마이징 할 건데요.   
