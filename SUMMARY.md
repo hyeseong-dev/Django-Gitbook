@@ -25,4 +25,5 @@
 * [Django Paypal](django-paypal-1/README.md)
   * [1st](django-paypal-1/django-paypal.md)
   * [2nd](django-paypal-1/2nd.md)
+  * [3rd](django-paypal-1/3rd.md)
 
