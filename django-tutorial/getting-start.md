@@ -1,6 +1,6 @@
 # Getting Start
 
-## 설
+## 설치
 
 ```text
 $ pip install django
